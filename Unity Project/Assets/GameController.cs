@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Rand = UnityEngine.Random;
 
 public enum ControllerType
@@ -43,7 +44,7 @@ public class GameController : MonoBehaviour
     public Player playerL;
     public Player playerR;
 
-    public Rigidbody2D ball;
+    public BallView ball;
 
     public Environment env;
 
@@ -79,6 +80,11 @@ public class GameController : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        instance = null;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -93,6 +99,8 @@ public class GameController : MonoBehaviour
         decayEffect = Mathf.Lerp(decayEffect, 0, Time.deltaTime / 2.0f);
         paddleDistance = Mathf.Clamp01(paddleDistance + (decay + decayEffect) * Time.deltaTime);
     }
+
+    
 
     // Update is called once per frame
     void FixedUpdate()
@@ -163,8 +171,8 @@ public class GameController : MonoBehaviour
 
         ballDirection.x *= (Rand.value > 0.5f) ? -1.0f : 1.0f;
 
-        ball.position = Vector2.zero;
-        ball.velocity = ballDirection * ballSpeed;
+        ball.Rigid.position = Vector2.zero;
+        ball.Rigid.velocity = ballDirection * ballSpeed;
     }
 
     public void OnPaddleBallCollision(PaddleView view, Rigidbody2D ball)

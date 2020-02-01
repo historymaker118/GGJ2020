@@ -12,6 +12,8 @@ public class BallView : MonoBehaviour
 
     private Rigidbody2D _rigid;
 
+    public Rigidbody2D Rigid { get => _rigid; }
+
     private void Awake()
     {
         _rigid = GetComponent<Rigidbody2D>();
