@@ -25,7 +25,7 @@ public class BallView : MonoBehaviour
     private IEnumerator TimeOutBall()
     {
         solidBall.SetActive(true);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.15f);
         solidBall.SetActive(false);
     }
 }
