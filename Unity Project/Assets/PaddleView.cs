@@ -2,11 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerView : MonoBehaviour
+public class PaddleView : MonoBehaviour
 {
     private Rigidbody2D _rigid;
-
-    private readonly float speed = 2.0f;
 
     private void Awake()
     {
@@ -25,13 +23,16 @@ public class PlayerView : MonoBehaviour
         
     }
 
-    public void MoveUp()
+    public void Move(float speed)
     {
         _rigid.velocity += Vector2.up * speed;
     }
 
-    public void MoveDown()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        _rigid.velocity += Vector2.up * -speed;
+        if (collision.gameObject.GetComponent<BallView>() != null)
+        {
+            GameController.instance.OnPaddleBallCollision(this, collision.rigidbody);
+        }
     }
 }
