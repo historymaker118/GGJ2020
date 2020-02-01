@@ -10,6 +10,12 @@ public class BallView : MonoBehaviour
 
     private Coroutine timeOut;
 
+    private Rigidbody2D _rigid;
+
+    private void Awake()
+    {
+        _rigid = GetComponent<Rigidbody2D>();
+    }
 
     public void Start()
     {
@@ -18,7 +24,8 @@ public class BallView : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.GetComponent<PaddleView>() != null)
+        var paddle = col.gameObject.GetComponent<PaddleView>();
+        if (paddle != null)
         {
             if (timeOut != null)
             {
@@ -26,6 +33,12 @@ public class BallView : MonoBehaviour
             }
 
             timeOut = StartCoroutine(TimeOutBall());
+
+            GameController.instance.OnPaddleBallCollision(paddle, _rigid);
+        }
+        else if (col.gameObject.GetComponent<BallResetOnHit>() != null)
+        {
+            GameController.instance.ResetBall();
         }
     }
 

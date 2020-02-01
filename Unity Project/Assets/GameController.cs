@@ -31,14 +31,14 @@ public class GameController : MonoBehaviour
 {
     public static GameController instance;
 
-    public float MinPaddleDistance = 6.0f;
-    public float MaxPaddleDistance = 40.0f;
+    private float MinPaddleDistance = 6.0f;
+    private float MaxPaddleDistance = 40.0f;
 
-    public float MinCameraScale = 5.0f;
-    public float MaxCameraScale = 25.0f;
+    private float MinCameraScale = 5.0f;
+    private float MaxCameraScale = 25.0f;
 
-    public Vector2 MinWallPos = new Vector2(14.0f, 8.0f);
-    public Vector2 MaxWallPos = new Vector2(42.0f, 12.0f);
+    private Vector2 MinWallPos = new Vector2(9.0f, 5.0f);
+    private Vector2 MaxWallPos = new Vector2(42.0f, 12.0f);
 
     public Player playerL;
     public Player playerR;
@@ -49,15 +49,21 @@ public class GameController : MonoBehaviour
 
     new public Camera camera;
 
-    public float paddleSpeed = 3.0f;
-    public float paddleDrag = 20.0f;
+    private float paddleSpeed = 6.0f;
+    private float paddleDrag = 20.0f;
 
-    public float ballSpeed = 12.0f;
+    private float ballSpeed = 12.0f;
 
-    public Vector2 ballDirScale = new Vector2(1.0f, 0.2f);
+    private Vector2 ballDirScale = new Vector2(1.0f, 0.2f);
+
+    [Range(-0.5f, 0.5f)]
+    public float decay = 0.0f;
 
     [Range(0.0f, 1.0f)]
     public float paddleDistance = 0.05f;
+
+    private float penalty = 0.1f;
+    private float reward = -0.03f;
 
     private void Awake()
     {
@@ -77,11 +83,12 @@ public class GameController : MonoBehaviour
         playerL.view.GetComponent<Rigidbody2D>().drag = paddleDrag;
         playerR.view.GetComponent<Rigidbody2D>().drag = paddleDrag;
 
-        float randAngle = Rand.value * Mathf.PI;
+        ShootBall();
+    }
 
-        var ballDirection = (new Vector2(Mathf.Cos(randAngle), -Mathf.Sin(randAngle)) * ballDirScale).normalized;
-
-        ball.velocity = ballDirection * ballSpeed;
+    private void Update()
+    {
+        paddleDistance = Mathf.Clamp01(paddleDistance + decay * Time.deltaTime);
     }
 
     // Update is called once per frame
@@ -138,6 +145,23 @@ public class GameController : MonoBehaviour
         env.rightWall.transform.position = Vector3.right * wallPos.x;
     }
 
+    public void ResetBall()
+    {
+        ShootBall();
+
+        paddleDistance = Mathf.Clamp01(paddleDistance + penalty);
+    }
+
+    private void ShootBall()
+    {
+        float randAngle = Rand.value * Mathf.PI;
+
+        var ballDirection = (new Vector2(Mathf.Cos(randAngle), -Mathf.Sin(randAngle)) * ballDirScale).normalized;
+
+        ball.position = Vector2.zero;
+        ball.velocity = ballDirection * ballSpeed;
+    }
+
     public void OnPaddleBallCollision(PaddleView view, Rigidbody2D ball)
     {
         // float maxAngle = Mathf.PI / 4.0f;
@@ -147,5 +171,7 @@ public class GameController : MonoBehaviour
         Vector2 bounceDir = (directionSquish * directionToBall).normalized;
 
         ball.velocity = bounceDir * ballSpeed;
+
+        paddleDistance = Mathf.Clamp01(paddleDistance + reward);
     }
 }
