@@ -30,14 +30,14 @@ public struct Environment
 public class GameController : MonoBehaviour
 {
     public static GameController instance;
-
-    private float MinPaddleDistance = 6.0f;
+    
+    private float MinPaddleDistance = 3.0f;
     private float MaxPaddleDistance = 40.0f;
-
-    private float MinCameraScale = 5.0f;
+    
+    private float MinCameraScale = 3.0f;
     private float MaxCameraScale = 25.0f;
-
-    private Vector2 MinWallPos = new Vector2(9.0f, 5.0f);
+    
+    private Vector2 MinWallPos = new Vector2(5.32f, 3.37f);
     private Vector2 MaxWallPos = new Vector2(42.0f, 12.0f);
 
     public Player playerL;
@@ -49,21 +49,23 @@ public class GameController : MonoBehaviour
 
     new public Camera camera;
 
-    private float paddleSpeed = 6.0f;
+    private float paddleSpeed = 4.0f;
     private float paddleDrag = 20.0f;
 
-    private float ballSpeed = 12.0f;
-
-    private Vector2 ballDirScale = new Vector2(1.0f, 0.2f);
+    private float ballSpeed = 14.0f;
 
     [Range(-0.5f, 0.5f)]
-    public float decay = 0.0f;
+    public float decay = 0.01f;
 
-    [Range(0.0f, 1.0f)]
-    public float paddleDistance = 0.05f;
+    [SerializeField, Range(0.0f, 1.0f)]
+    private float paddleDistance = 0.5f;
 
     private float penalty = 0.1f;
-    private float reward = -0.03f;
+    private float reward = -0.05f;
+
+    private float decayEffect = 0.0f;
+
+    //private float winDistance = 0.03f;
 
     private void Awake()
     {
@@ -88,7 +90,8 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        paddleDistance = Mathf.Clamp01(paddleDistance + decay * Time.deltaTime);
+        decayEffect = Mathf.Lerp(decayEffect, 0, Time.deltaTime / 2.0f);
+        paddleDistance = Mathf.Clamp01(paddleDistance + (decay + decayEffect) * Time.deltaTime);
     }
 
     // Update is called once per frame
@@ -149,14 +152,16 @@ public class GameController : MonoBehaviour
     {
         ShootBall();
 
-        paddleDistance = Mathf.Clamp01(paddleDistance + penalty);
+        decayEffect += penalty;
     }
 
     private void ShootBall()
     {
-        float randAngle = Rand.value * Mathf.PI;
+        float randAngle = Rand.Range(-Mathf.PI / 4.0f, Mathf.PI / 4.0f);
 
-        var ballDirection = (new Vector2(Mathf.Cos(randAngle), -Mathf.Sin(randAngle)) * ballDirScale).normalized;
+        var ballDirection = new Vector2(Mathf.Cos(randAngle), -Mathf.Sin(randAngle));
+
+        ballDirection.x *= (Rand.value > 0.5f) ? -1.0f : 1.0f;
 
         ball.position = Vector2.zero;
         ball.velocity = ballDirection * ballSpeed;
@@ -172,6 +177,6 @@ public class GameController : MonoBehaviour
 
         ball.velocity = bounceDir * ballSpeed;
 
-        paddleDistance = Mathf.Clamp01(paddleDistance + reward);
+        decayEffect = reward;
     }
 }
