@@ -202,7 +202,7 @@ PrefabInstance:
     - target: {fileID: 6762356678519761480, guid: 69f2074a149da53449e99b7f1b04f23f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -6.22
       objectReference: {fileID: 0}
     - target: {fileID: 6762356678519761480, guid: 69f2074a149da53449e99b7f1b04f23f,
         type: 3}
@@ -253,36 +253,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Env
-      objectReference: {fileID: 0}
-    - target: {fileID: 6762356680275994965, guid: 69f2074a149da53449e99b7f1b04f23f,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 0.754717
-      objectReference: {fileID: 0}
-    - target: {fileID: 6762356680275994965, guid: 69f2074a149da53449e99b7f1b04f23f,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 0.6455523
-      objectReference: {fileID: 0}
-    - target: {fileID: 6762356680275994965, guid: 69f2074a149da53449e99b7f1b04f23f,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 0.5161979
-      objectReference: {fileID: 0}
-    - target: {fileID: 6762356680275994970, guid: 69f2074a149da53449e99b7f1b04f23f,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 2.7158
-      objectReference: {fileID: 0}
-    - target: {fileID: 6762356680275994970, guid: 69f2074a149da53449e99b7f1b04f23f,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 2.7158
-      objectReference: {fileID: 0}
-    - target: {fileID: 6762356680275994970, guid: 69f2074a149da53449e99b7f1b04f23f,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 2.7158
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69f2074a149da53449e99b7f1b04f23f, type: 3}
@@ -392,7 +362,6 @@ GameObject:
   m_Component:
   - component: {fileID: 237246112}
   - component: {fileID: 237246111}
-  - component: {fileID: 237246114}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -460,9 +429,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  envAnim: {fileID: 0}
   decay: 0
-  paddleDistance: 0.4
+  paddleDistance: 0
 --- !u!4 &237246112
 Transform:
   m_ObjectHideFlags: 0
@@ -483,22 +451,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!111 &237246114
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 237246110}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 34f1037d941cf9546a2d0b9cb4e989de, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 34f1037d941cf9546a2d0b9cb4e989de, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!1001 &254482967
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -56,8 +56,6 @@ public class GameController : MonoBehaviour
 
     public AnimationCurve particlesAlpha;
 
-    public Animator envAnim;
-
     private float paddleSpeed = 4.0f;
     private float paddleDrag = 20.0f;
 
@@ -109,8 +107,6 @@ public class GameController : MonoBehaviour
         paddleDistance = Mathf.Clamp01(paddleDistance + (decay + decayEffect) * Time.deltaTime);
 
         particles.SetAlpha(particlesAlpha.Evaluate(paddleDistance));
-
-        envAnim.Play("Master", 0, paddleDistance);
     }
 
     
