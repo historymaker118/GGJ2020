@@ -31,6 +31,8 @@ public struct Environment
 public class GameController : MonoBehaviour
 {
     public static GameController instance;
+
+    public bool demoMode = false;
     
     private float MinPaddleDistance = 3.0f;
     private float MaxPaddleDistance = 40.0f;
@@ -49,6 +51,12 @@ public class GameController : MonoBehaviour
     public Environment env;
 
     new public Camera camera;
+
+    public HeartParticles particles;
+
+    public AnimationCurve particlesAlpha;
+
+    public Animator envAnim;
 
     private float paddleSpeed = 4.0f;
     private float paddleDrag = 20.0f;
@@ -91,13 +99,18 @@ public class GameController : MonoBehaviour
         playerL.view.GetComponent<Rigidbody2D>().drag = paddleDrag;
         playerR.view.GetComponent<Rigidbody2D>().drag = paddleDrag;
 
-        ShootBall();
+        if (!demoMode)
+            ShootBall();
     }
 
     private void Update()
     {
         decayEffect = Mathf.Lerp(decayEffect, 0, Time.deltaTime / 2.0f);
         paddleDistance = Mathf.Clamp01(paddleDistance + (decay + decayEffect) * Time.deltaTime);
+
+        particles.SetAlpha(particlesAlpha.Evaluate(paddleDistance));
+
+        envAnim.Play("Master", 0, paddleDistance);
     }
 
     
