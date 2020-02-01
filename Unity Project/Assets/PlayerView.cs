@@ -6,8 +6,6 @@ public class PlayerView : MonoBehaviour
 {
     private Rigidbody2D _rigid;
 
-    private readonly float speed = 2.0f;
-
     private void Awake()
     {
         _rigid = GetComponent<Rigidbody2D>();
@@ -25,13 +23,8 @@ public class PlayerView : MonoBehaviour
         
     }
 
-    public void MoveUp()
+    public void Move(float speed)
     {
         _rigid.velocity += Vector2.up * speed;
-    }
-
-    public void MoveDown()
-    {
-        _rigid.velocity += Vector2.up * -speed;
     }
 }
