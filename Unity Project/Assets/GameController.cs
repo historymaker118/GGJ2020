@@ -15,11 +15,13 @@ public enum ControllerType
 public struct Player
 {
     public ControllerType controllerType;
-    public PlayerView view;
+    public PaddleView view;
 }
 
 public class GameController : MonoBehaviour
 {
+    public static GameController instance;
+
     public Player playerL;
     public Player playerR;
 
@@ -28,7 +30,21 @@ public class GameController : MonoBehaviour
     public float paddleSpeed = 3.0f;
     public float paddleDrag = 20.0f;
 
-    public Vector2 ballDirScale = new Vector2(0.5f, 1.0f);
+    public float ballSpeed = 12.0f;
+
+    public Vector2 ballDirScale = new Vector2(1.0f, 0.2f);
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Debug.LogAssertion("Cannot instantiate more than one GameController instance");
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -40,7 +56,7 @@ public class GameController : MonoBehaviour
 
         var ballDirection = (new Vector2(Mathf.Cos(randAngle), -Mathf.Sin(randAngle)) * ballDirScale).normalized;
 
-        ball.velocity = ballDirection * 6.0f;
+        ball.velocity = ballDirection * ballSpeed;
     }
 
     // Update is called once per frame
@@ -74,5 +90,16 @@ public class GameController : MonoBehaviour
         }
 
         paddleView.Move(paddleSpeed * moveScale);
+    }
+
+    public void OnPaddleBallCollision(PaddleView view, Rigidbody2D ball)
+    {
+        // float maxAngle = Mathf.PI / 4.0f;
+        var directionSquish = new Vector2(1.0f, 1.0f);
+
+        var directionToBall = ball.transform.position - view.transform.position;
+        Vector2 bounceDir = (directionSquish * directionToBall).normalized;
+
+        ball.velocity = bounceDir * ballSpeed;
     }
 }

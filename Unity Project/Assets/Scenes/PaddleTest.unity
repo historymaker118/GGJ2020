@@ -298,7 +298,8 @@ MonoBehaviour:
   ball: {fileID: 1178544899}
   paddleSpeed: 6
   paddleDrag: 20
-  ballSpawnDirScale: {x: 0.5, y: 1}
+  ballSpeed: 12
+  ballDirScale: {x: 1, y: 0.2}
 --- !u!4 &237246112
 Transform:
   m_ObjectHideFlags: 0
@@ -546,6 +547,7 @@ GameObject:
   - component: {fileID: 1178544898}
   - component: {fileID: 1178544899}
   - component: {fileID: 1178544900}
+  - component: {fileID: 1178544901}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -615,6 +617,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1178544901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1178544897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10d4ddb4a2aa54642aafa5e2948ccebb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1327650733
 GameObject:
   m_ObjectHideFlags: 0
@@ -804,7 +818,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1341545202}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fdcfe39a1abd9948b31fe595c654d53, type: 3}
+  m_Script: {fileID: 11500000, guid: b33f0bfd7ab5dc3419fc0a86f72f70aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1341545206
@@ -1067,7 +1081,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1726638363}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fdcfe39a1abd9948b31fe595c654d53, type: 3}
+  m_Script: {fileID: 11500000, guid: b33f0bfd7ab5dc3419fc0a86f72f70aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1726638367
