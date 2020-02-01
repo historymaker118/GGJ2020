@@ -18,18 +18,13 @@ public struct Player
     public PaddleView view;
 }
 
-public struct Bounds
-{
-    float min;
-    float max;
-}
-
+[Serializable]
 public struct Environment
 {
-    BoxCollider2D topWall;
-    BoxCollider2D bottomWall;
-    BoxCollider2D leftWall;
-    BoxCollider2D rightWall;
+    public BoxCollider2D topWall;
+    public BoxCollider2D bottomWall;
+    public BoxCollider2D leftWall;
+    public BoxCollider2D rightWall;
 }
 
 public class GameController : MonoBehaviour
@@ -41,6 +36,9 @@ public class GameController : MonoBehaviour
 
     public float MinCameraScale = 5.0f;
     public float MaxCameraScale = 25.0f;
+
+    public Vector2 MinWallPos = new Vector2(14.0f, 8.0f);
+    public Vector2 MaxWallPos = new Vector2(42.0f, 12.0f);
 
     public Player playerL;
     public Player playerR;
@@ -130,12 +128,20 @@ public class GameController : MonoBehaviour
     {
         camera.orthographicSize = Mathf.Lerp(MinCameraScale, MaxCameraScale, paddleDistance);
         // TODO: Update Game Walls.
+
+        var wallPos = Vector2.Lerp(MinWallPos, MaxWallPos, paddleDistance);
+
+        env.topWall.transform.position = Vector3.up * wallPos.y;
+        env.bottomWall.transform.position = Vector3.down * wallPos.y;
+
+        env.leftWall.transform.position = Vector3.left * wallPos.x;
+        env.rightWall.transform.position = Vector3.right * wallPos.x;
     }
 
     public void OnPaddleBallCollision(PaddleView view, Rigidbody2D ball)
     {
         // float maxAngle = Mathf.PI / 4.0f;
-        var directionSquish = new Vector2(1.0f, 1.0f);
+        var directionSquish = new Vector2(1.0f, 0.5f);
 
         var directionToBall = ball.transform.position - view.transform.position;
         Vector2 bounceDir = (directionSquish * directionToBall).normalized;
