@@ -677,7 +677,7 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0.5250015
+      value: 0.5
       inSlope: -1
       outSlope: -1
       tangentMode: 0
@@ -696,7 +696,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  color: {r: 0.754717, g: 0.4734781, b: 0.7394427, a: 0}
+  color: {r: 0.48299998, g: 0.3043906, b: 0.4754531, a: 0}
 --- !u!1001 &471460973
 PrefabInstance:
   m_ObjectHideFlags: 0

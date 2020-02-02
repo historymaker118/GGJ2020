@@ -12,6 +12,9 @@ public class MainMenu : MonoBehaviour {
 
 	public Animator transition;
 
+    public ControllerType left;
+    public ControllerType right;
+
 	void Start () {
 		if (titlecard != null){
 			titlecard.SetActive(true);
@@ -78,15 +81,33 @@ public class MainMenu : MonoBehaviour {
 
 	public void QuitButton_Click(){
 		Application.Quit();
-	}
+    }
 
-	private IEnumerator transitionScene(float duration){
+    public void Dropdown_ControllerLeft(int type)
+    {
+        left = (ControllerType)type;
+    }
+
+    public void Dropdown_ControllerRight(int type)
+    {
+        right = (ControllerType)type;
+    }
+
+    private IEnumerator transitionScene(float duration){
 		transition.SetTrigger("FadeOut");
 		float elapsed = 0;
 		while (elapsed < duration){
 			elapsed += Time.deltaTime;
 			yield return null;
 		}
-		SceneManager.LoadSceneAsync("Main");
+		var load = SceneManager.LoadSceneAsync("Main");
+        load.completed += loadComplete;
 	}
+
+    private void loadComplete(AsyncOperation obj)
+    {
+        var inst = GameController.instance;
+        inst.playerL.controllerType = left;
+        inst.playerR.controllerType = right;
+    }
 }
