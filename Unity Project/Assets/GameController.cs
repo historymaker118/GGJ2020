@@ -40,7 +40,7 @@ public class GameController : MonoBehaviour
     private float MaxPaddleDistance = 40.0f;
     
     private float MinCameraScale = 3.0f;
-    public float MaxCameraScale = 21.0f;
+    private float MaxCameraScale = 21.0f;
     
     private Vector2 MinWallPos = new Vector2(5.32f, 3.37f);
     private Vector2 MaxWallPos = new Vector2(42.0f, 12.0f);
@@ -53,10 +53,6 @@ public class GameController : MonoBehaviour
     public Environment env;
 
     new public Camera camera;
-
-    public HeartParticles particles;
-
-    public AnimationCurve particlesAlpha;
 
     private float paddleSpeed = 4.0f;
     private float paddleDrag = 20.0f;
@@ -78,10 +74,7 @@ public class GameController : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
+        if (instance == null) instance = this;
         else
         {
             Debug.LogAssertion("Cannot instantiate more than one GameController instance");
@@ -106,7 +99,6 @@ public class GameController : MonoBehaviour
     private void Update()
     {
         decayEffect = Mathf.Lerp(decayEffect, 0, Time.deltaTime / 2.0f);
-        paddleDistance = Mathf.Clamp01(paddleDistance + (decay + decayEffect) * Time.deltaTime);
 
         onPaddleDistance.Invoke(paddleDistance);
     }
@@ -116,6 +108,8 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        paddleDistance = Mathf.Clamp01(paddleDistance + (decay + decayEffect) * Time.fixedDeltaTime);
+
         FixedUpdatePlayer(playerL, false);
         FixedUpdatePlayer(playerR, true);
 
@@ -187,7 +181,6 @@ public class GameController : MonoBehaviour
 
     public void OnPaddleBallCollision(PaddleView view, Rigidbody2D ball)
     {
-        // float maxAngle = Mathf.PI / 4.0f;
         var directionSquish = new Vector2(1.0f, 0.5f);
 
         var directionToBall = ball.transform.position - view.transform.position;
