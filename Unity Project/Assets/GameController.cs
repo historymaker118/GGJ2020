@@ -96,8 +96,9 @@ public class GameController : MonoBehaviour
         playerL.view.GetComponent<Rigidbody2D>().drag = paddleDrag;
         playerR.view.GetComponent<Rigidbody2D>().drag = paddleDrag;
 
-        if (!demoMode)
-            ShootBall();
+        if (demoMode) return;
+
+        ShootBall();
     }
 
     private void Update()
@@ -105,6 +106,8 @@ public class GameController : MonoBehaviour
         decayEffect = Mathf.Lerp(decayEffect, 0, Time.deltaTime / 2.0f);
 
         onPaddleDistance.Invoke(paddleDistance);
+
+        if (demoMode) return;
 
         // Restart button
         if (Input.GetKeyDown(KeyCode.R))
