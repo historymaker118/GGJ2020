@@ -40,7 +40,7 @@ public class GameController : MonoBehaviour
     private float MaxPaddleDistance = 40.0f;
     
     private float MinCameraScale = 3.0f;
-    private float MaxCameraScale = 25.0f;
+    public float MaxCameraScale = 21.0f;
     
     private Vector2 MinWallPos = new Vector2(5.32f, 3.37f);
     private Vector2 MaxWallPos = new Vector2(42.0f, 12.0f);

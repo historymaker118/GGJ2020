@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class HeartParticles : MonoBehaviour
 {
     public ParticleSystem _particles;

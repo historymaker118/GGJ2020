@@ -17,7 +17,12 @@ public class BallView : MonoBehaviour
 
     public void Start()
     {
+        GameController.instance.onPaddleDistance += handlePaddleDistance;
+    }
 
+    private void handlePaddleDistance(float alpha)
+    {
+        transform.localScale = Vector3.Lerp(Vector3.one, Vector3.one * 2, alpha);
     }
 
     private void OnCollisionEnter2D(Collision2D col)
