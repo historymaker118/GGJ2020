@@ -70,8 +70,8 @@ public class GameController : MonoBehaviour
 
     private float decayEffect = 0.0f;
 
-    private float endThreshhold = 0.03f;
-    private float andHoldTime = 1.0f;
+    private float endThreshhold = 0.01f;
+    private float andHoldTime = 5.0f;
 
     private Coroutine restartCoroutine;
     private Coroutine endStateCoroutine;
@@ -151,9 +151,9 @@ public class GameController : MonoBehaviour
     IEnumerator EndStateCoroutine(bool isWinning)
     {
         yield return new WaitForSeconds(andHoldTime);
-
-        SceneManager.LoadSceneAsync((isWinning) ? "GameWin" : "GameOver");
         endStateCoroutine = null;
+
+        SceneManager.LoadScene((isWinning) ? "GameWin" : "GameOver");
     }
 
     // Update is called once per frame
