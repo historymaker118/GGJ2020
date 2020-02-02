@@ -32,6 +32,8 @@ public class GameController : MonoBehaviour
 {
     public static GameController instance;
 
+    public Action<float> onPaddleDistance;
+
     public bool demoMode = false;
     
     private float MinPaddleDistance = 3.0f;
@@ -106,7 +108,7 @@ public class GameController : MonoBehaviour
         decayEffect = Mathf.Lerp(decayEffect, 0, Time.deltaTime / 2.0f);
         paddleDistance = Mathf.Clamp01(paddleDistance + (decay + decayEffect) * Time.deltaTime);
 
-        particles.SetAlpha(particlesAlpha.Evaluate(paddleDistance));
+        onPaddleDistance.Invoke(paddleDistance);
     }
 
     
@@ -154,7 +156,6 @@ public class GameController : MonoBehaviour
     private void FixedUpdateEnvironment()
     {
         camera.orthographicSize = Mathf.Lerp(MinCameraScale, MaxCameraScale, paddleDistance);
-        // TODO: Update Game Walls.
 
         var wallPos = Vector2.Lerp(MinWallPos, MaxWallPos, paddleDistance);
 
