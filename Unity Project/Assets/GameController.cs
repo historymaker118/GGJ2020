@@ -40,7 +40,7 @@ public class GameController : MonoBehaviour
     private float MaxPaddleDistance = 40.0f;
     
     private float MinCameraScale = 3.0f;
-    private float MaxCameraScale = 21.0f;
+    private float MaxCameraScale = 25.0f;
     
     private Vector2 MinWallPos = new Vector2(5.32f, 3.37f);
     private Vector2 MaxWallPos = new Vector2(42.0f, 12.0f);
@@ -71,8 +71,10 @@ public class GameController : MonoBehaviour
     private float decayEffect = 0.0f;
 
     private float endThreshhold = 0.03f;
+    private float andHoldTime = 1.0f;
 
     private Coroutine restartCoroutine;
+    private Coroutine endStateCoroutine;
 
     private void Awake()
     {
@@ -104,11 +106,34 @@ public class GameController : MonoBehaviour
 
         onPaddleDistance.Invoke(paddleDistance);
 
+        // Restart button
         if (Input.GetKeyDown(KeyCode.R))
+        {
             restartCoroutine = StartCoroutine("RestartCoroutine");
+        }
 
-        if (Input.GetKeyUp(KeyCode.R))
+        if (Input.GetKeyUp(KeyCode.R) && restartCoroutine != null)
+        {
             StopCoroutine(restartCoroutine);
+        }
+
+        // Handle End states.
+        if (paddleDistance < endThreshhold)
+        {
+            endStateCoroutine = StartCoroutine("EndStateCoroutine", true);
+        }
+        else if (paddleDistance > 1.0 - endThreshhold)
+        {
+            endStateCoroutine = StartCoroutine("EndStateCoroutine", false);
+        }
+        else
+        {
+            if (endStateCoroutine != null)
+            {
+                StopCoroutine(endStateCoroutine);
+                endStateCoroutine = null;
+            }
+        }
     }
 
     IEnumerator RestartCoroutine()
@@ -117,6 +142,15 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(holdTime);
 
         SceneManager.LoadScene(0);
+        restartCoroutine = null;
+    }
+
+    IEnumerator EndStateCoroutine(bool isWinning)
+    {
+        yield return new WaitForSeconds(andHoldTime);
+
+        SceneManager.LoadSceneAsync((isWinning) ? "GameWin" : "GameOver");
+        endStateCoroutine = null;
     }
 
     // Update is called once per frame
