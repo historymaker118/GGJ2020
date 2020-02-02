@@ -70,7 +70,9 @@ public class GameController : MonoBehaviour
 
     private float decayEffect = 0.0f;
 
-    //private float winDistance = 0.03f;
+    private float endThreshhold = 0.03f;
+
+    private Coroutine restartCoroutine;
 
     private void Awake()
     {
@@ -101,9 +103,21 @@ public class GameController : MonoBehaviour
         decayEffect = Mathf.Lerp(decayEffect, 0, Time.deltaTime / 2.0f);
 
         onPaddleDistance.Invoke(paddleDistance);
+
+        if (Input.GetKeyDown(KeyCode.R))
+            restartCoroutine = StartCoroutine("RestartCoroutine");
+
+        if (Input.GetKeyUp(KeyCode.R))
+            StopCoroutine(restartCoroutine);
     }
 
-    
+    IEnumerator RestartCoroutine()
+    {
+        const float holdTime = 1.0f;
+        yield return new WaitForSeconds(holdTime);
+
+        SceneManager.LoadScene(0);
+    }
 
     // Update is called once per frame
     void FixedUpdate()
